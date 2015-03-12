@@ -1,0 +1,6 @@
+{
+  "name": "cocona",
+  "dependencies": {
+    "jquery": "~2.1.2"
+  }
+}
