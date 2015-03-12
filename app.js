@@ -28,6 +28,7 @@ app.get('/auth/github/callback', passport.authenticate('github'), function(req, 
 });
 
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/bower_components'));
 
 app.listen(config.port, function() {
   console.log('Cocona started at', config.port);
