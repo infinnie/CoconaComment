@@ -8,6 +8,50 @@ var cors = require('cors');
 
 var config = require('./config');
 var app = express();
+var mabolo = new Mabolo(config.mongodb);
+var ObjectID = mabolo.ObjectID;
+
+var User = mabolo.model('User', {
+  provider: {
+    type: String,
+    required: true
+  },
+  id: {
+    type: Number,
+    required: true
+  },
+  profile: {
+    type: Object,
+    required: true
+  }
+});
+
+var Comment = mabolo.model('Comment', {
+  domain: {
+    type: String,
+    required: true
+  },
+  topic: {
+    type: String,
+    required: true
+  },
+  created_at: {
+    type: Date,
+    required: true
+  },
+  parent_id: {
+    type: ObjectID,
+    required: true
+  },
+  author_id: {
+    type: ObjectID,
+    required: true
+  },
+  body: {
+    type: String,
+    required: true
+  }
+});
 
 setupPassport();
 
@@ -51,12 +95,27 @@ function setupPassport() {
   });
 
   passport.use(new GitHubStrategy({
-      clientID: config.GITHUB_CLIENT_ID,
-      clientSecret: config.GITHUB_CLIENT_SECRET,
-      callbackURL: config.GITHUB_CALLBACK_URL
-    },
-    function(accessToken, refreshToken, profile, done) {
-      done(null, profile);
-    }
-  ));
+    clientID: config.GITHUB_CLIENT_ID,
+    clientSecret: config.GITHUB_CLIENT_SECRET,
+    callbackURL: config.GITHUB_CALLBACK_URL
+  }, function(accessToken, refreshToken, profile, done) {
+    User.findOne({
+      provider: profile.provider,
+      id: profile.id
+    }, function(err, user) {
+      if (user) {
+        user.update({
+          $set: {
+            profile: profile._json
+          }
+        }, done)
+      } else {
+        User.create({
+          provider: profile.provider,
+          id: profile.id,
+          profile: profile._json
+        }, done);
+      }
+    });
+  }));
 }
