@@ -1,0 +1,107 @@
+﻿html {
+    overflow: hidden;
+}
+
+body, input, button, select, textarea {
+    font: 100%/1.5 "_Segoe","Segoe UI",Seravek,"Open Sans",Roboto,sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    border: none;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+    a:hover, a:focus {
+        text-decoration: underline;
+    }
+
+.comment-box {
+    border: 1px solid;
+}
+
+.comment-editor {
+    padding: .5em .75em;
+    min-height: 1.5em;
+    transition: .3s;
+}
+
+    .comment-editor:empty:before {
+        content: attr(data-placeholder);
+    }
+
+    .comment-editor:focus {
+        min-height: 3em;
+    }
+
+        .comment-editor:focus:before {
+            content: none;
+        }
+
+.comments {
+    list-style: none;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.comment {
+    margin: 0;
+    overflow: hidden;
+    padding-top: .75em;
+}
+
+.user-avatar {
+    float: left;
+    width: 48px;
+    margin-right: 1em;
+}
+
+    .user-avatar img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 9em;
+    }
+
+.comment-content {
+    overflow: hidden;
+    padding-bottom: .75em;
+    border-bottom: 1px solid;
+}
+
+.comment-header {
+    margin-bottom: .25em;
+}
+
+    .comment-header h3 {
+        display: inline-block;
+        margin: 0;
+        font-size: 100%;
+        font-weight: 700;
+    }
+
+.comment-body p {
+    margin: 0 0 .5em;
+}
+
+.comment-body ul {
+    list-style: disc;
+}
+
+.comment-body ol {
+    list-style: decimal;
+}
+
+.comment-footer a {
+    display: inline-block;
+    margin-right: .5em;
+    text-decoration: none;
+}

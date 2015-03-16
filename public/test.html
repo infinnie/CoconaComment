@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Cocona comment test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .upper, .lower {
+            padding: 1em;
+        }
+
+        .upper {
+            background: #eee;
+        }
+
+        .lower {
+            background: #444;
+        }
+
+        .test {
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+            .test iframe {
+                border: none;
+                width: 100%;
+                background: transparent;
+            }
+    </style>
+</head>
+<body>
+    <div class="upper">
+        <div class="test">
+            <iframe src="index.html" id="test" name="test"></iframe>
+        </div>
+    </div>
+    <div class="lower">
+        <div class="test">
+            <iframe src="dark.html" id="darktest" name="darktest"></iframe>
+        </div>
+    </div>
+    <script>
+        window.onmessage = function (e) {
+            console.log(e.data);
+            document.getElementById(e.source.name).style.height = e.data + "px";
+        }
+    </script>
+</body>
+</html>
