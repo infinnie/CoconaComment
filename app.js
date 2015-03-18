@@ -1,10 +1,12 @@
 var GitHubStrategy = require('passport-github').Strategy;
 var bodyParser = require('body-parser');
 var passport = require('passport');
+var session = require('express-session');
 var express = require('express');
 var morgan = require('morgan');
 var Mabolo = require('mabolo');
 var cors = require('cors');
+var _ = require('underscore');
 
 var config = require('./config');
 var app = express();
@@ -26,6 +28,15 @@ var User = mabolo.model('User', {
   }
 });
 
+User.prototype.wipe = function() {
+  return {
+    _id: this._id,
+    id: this.id,
+    provider: this.provider,
+    profile: _.pick(this.profile, 'login', 'name', 'avatar_url', 'blog', 'location', 'followers')
+  }
+};
+
 var Comment = mabolo.model('Comment', {
   domain: {
     type: String,
@@ -40,8 +51,7 @@ var Comment = mabolo.model('Comment', {
     required: true
   },
   parent_id: {
-    type: ObjectID,
-    required: true
+    type: ObjectID
   },
   author_id: {
     type: ObjectID,
@@ -59,6 +69,11 @@ app.use(cors());
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+app.use(session({
+  secret: config.secret,
+  resave: true,
+  saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -119,7 +134,20 @@ app.get('/comments', function(req, res) {
   }
 */
 app.post('/comments', ensureAuthenticated, function(req, res) {
-  // TODO
+  Comment.create(_.extend(req.body, {
+    created_at: new Date(),
+    author_id: new ObjectID(req.user._id)
+  }), function(err, comment) {
+    if (err) {
+      res.status(400).json({
+        error: err.toString()
+      });
+    } else {
+      res.json(_.extend(comment, {
+        author: req.user.wipe()
+      }));
+    }
+  });
 });
 
 app.get('/auth/github', passport.authenticate('github'));
@@ -147,11 +175,11 @@ function ensureAuthenticated(req, res, next) {
 
 function setupPassport() {
   passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user._id);
   });
 
-  passport.deserializeUser(function(obj, done) {
-    done(null, obj);
+  passport.deserializeUser(function(user_id, done) {
+    User.findById(user_id, done);
   });
 
   passport.use(new GitHubStrategy({
@@ -168,7 +196,11 @@ function setupPassport() {
           $set: {
             profile: profile._json
           }
-        }, done)
+        }, function(err) {
+          done(err, _.extend(user, {
+            profile: profile._json
+          }));
+        });
       } else {
         User.create({
           provider: profile.provider,
