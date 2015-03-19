@@ -1,4 +1,4 @@
-﻿html {
+html {
     overflow: hidden;
 }
 
@@ -23,6 +23,33 @@ a {
     a:hover, a:focus {
         text-decoration: underline;
     }
+
+.header {
+    border-bottom: 1px solid;
+    margin-bottom: 1.5em;
+    width: 100%;
+}
+
+    .header:after {
+        clear: both;
+        content: "";
+        display: block;
+        overflow: hidden;
+    }
+
+.header-link {
+    padding: .5em;
+    border-bottom: 2px solid transparent;
+    transition: .3s;
+}
+
+    .header-link:hover,.header-link:focus {
+        text-decoration: none;
+    }
+
+.account-link {
+    float: right;
+}
 
 .comment-box {
     border: 1px solid;

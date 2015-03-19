@@ -1,84 +1,31 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8' />
     <title>Cocona</title>
     <link rel="stylesheet" href="font.css" />
     <link rel="stylesheet" href="common.css" />
-    <style>
-        body, input, button, select, textarea {
-            color: #333;
-        }
-
-        a {
-            color: #26a;
-        }
-
-        .comment-box {
-            border-color: #ddd;
-        }
-
-        .comment-editor {
-            background: #fff;
-        }
-
-            .comment-editor:empty:before {
-                color: #aaa;
-            }
-
-        .comment-content {
-            border-color: #ddd;
-        }
-
-        .comment-datetime {
-            color: #999;
-        }
-
-        .comment-footer a {
-            color: #999;
-        }
-
-            .comment-footer a:hover {
-                color: #26a;
-            }
-    </style>
 </head>
 <body>
+    <div class="header">
+        <a href="#" class="header-link active">Latest</a>
+        <a href="#" class="header-link">Top rated</a>
+        <a href="/auth/github" class="header-link account-link" target="_blank">Log in</a>
+    </div>
     <div class="comment-box">
         <div class="comment-editor" contenteditable="true" data-placeholder="Leave a comment&hellip;" id="editor"></div>
     </div>
-    <ul class="comments">
+    <ul class="comments" data-bind="foreach:comments">
         <li class="comment">
             <a href="#" class="user-avatar">
-                <img src="avatar.jpg" alt="Alice" />
+                <img src="#" data-bind="attr:{src:author.profile.avatar_url,alt:author.profile.name}" alt="Test" />
             </a>
             <div class="comment-content">
                 <div class="comment-header">
-                    <h3><a href="#">Alice</a></h3>
-                    <span class="comment-datetime">@Mar 14 2015</span>
+                    <h3><a href="#" data-bind="text:author.profile.name"></a></h3>
+                    <span class="comment-datetime" data-bind="text:'@'+created_at"></span>
                 </div>
-                <div class="comment-body">
-                    <p>Comment body</p>
-                    <p>Another paragraph begins</p>
-                </div>
-                <div class="comment-footer">
-                    <a href="#">Like</a>
-                    <a href="#">Reply</a>
-                </div>
-            </div>
-        </li>
-        <li class="comment">
-            <a href="#" class="user-avatar">
-                <img src="avatar.jpg" alt="Alice" />
-            </a>
-            <div class="comment-content">
-                <div class="comment-header">
-                    <h3><a href="#">Bob</a></h3>
-                    <span class="comment-datetime">@Mar 14 2015</span>
-                </div>
-                <div class="comment-body">
-                    <p><a href="#">@Alice</a> Comment body</p>
-                </div>
+                <div class="comment-body" data-bind="html:body"></div>
                 <div class="comment-footer">
                     <a href="#">Like</a>
                     <a href="#">Reply</a>
@@ -87,7 +34,8 @@
         </li>
     </ul>
     <p>Comments powered by <a href="#">Cocona</a>.</p>
-    <script src="http://localhost/js/jquery-1.8.0.min.js"></script>
-    <script src='cocona.js'></script>
+    <script src="/jquery/jquery.min.js"></script>
+    <script src="/knockout/dist/knockout.js"></script>
+    <script src='cocona-frame.js'></script>
 </body>
 </html>

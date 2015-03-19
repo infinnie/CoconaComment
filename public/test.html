@@ -1,8 +1,12 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Cocona comment test</title>
     <style>
+        @-ms-viewport {
+            width: device-width;
+        }
+        
         body {
             margin: 0;
             padding: 0;
@@ -34,20 +38,15 @@
 </head>
 <body>
     <div class="upper">
-        <div class="test">
-            <iframe src="index.html" id="test" name="test"></iframe>
-        </div>
+        <div class="test" id="test"></div>
     </div>
     <div class="lower">
-        <div class="test">
-            <iframe src="dark.html" id="darktest" name="darktest"></iframe>
-        </div>
+        <div class="test" id="darktest"></div>
     </div>
+    <script src="cocona.js"></script>
     <script>
-        window.onmessage = function (e) {
-            console.log(e.data);
-            document.getElementById(e.source.name).style.height = e.data + "px";
-        }
+        Cocona.init("test"); // Demos default theme.
+        Cocona.init("darktest", "dark"); // Demos the dark theme.
     </script>
 </body>
 </html>
