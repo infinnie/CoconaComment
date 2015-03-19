@@ -1,0 +1,47 @@
+body, input, button, select, textarea {
+    color: #fff;
+}
+
+a {
+    color: #59d;
+}
+
+.header {
+    border-color: #555;
+}
+
+.header-link {
+    color: #fff;
+}
+
+    .header-link:hover,.header-link:focus,.header-link.active {
+        border-color: #fff;
+    }
+
+.comment-box {
+    border-color: #555;
+}
+
+.comment-editor {
+    background: #333;
+}
+
+    .comment-editor:empty:before {
+        color: #aaa;
+    }
+
+.comment-content {
+    border-color: #555;
+}
+
+.comment-datetime {
+    color: #999;
+}
+
+.comment-footer a {
+    color: #999;
+}
+
+    .comment-footer a:hover {
+        color: #59d;
+    }
