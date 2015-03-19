@@ -41,6 +41,8 @@ a {
     padding: .5em;
     border-bottom: 2px solid transparent;
     transition: .3s;
+    float: left;
+    margin-right: .5em;
 }
 
     .header-link:hover,.header-link:focus {
@@ -49,6 +51,8 @@ a {
 
 .account-link {
     float: right;
+    margin-right: 0;
+    margin-left: .5em;
 }
 
 .comment-box {
