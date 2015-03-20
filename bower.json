@@ -1,6 +1,7 @@
 {
-  "name": "cocona",
-  "dependencies": {
-    "jquery": "~2.1.2"
-  }
+    "name": "cocona",
+    "dependencies": {
+        "jquery": "~1.10.2",
+        "knockout": "~3.3.0"
+    }
 }

@@ -3,7 +3,7 @@ html {
 }
 
 body, input, button, select, textarea {
-    font: 100%/1.5 "_Segoe","Segoe UI",Seravek,"Open Sans",Roboto,sans-serif;
+    font: 100%/1.5 "_Segoe","Segoe UI",Seravek,"Open Sans",Roboto,Arial,sans-serif;
 }
 
 body {

@@ -12,7 +12,9 @@ var Cocona = (function () {
     }
     return {
         init: function (id, theme) {
-            var elem = document.getElementById(id), ifr = document.createElement("iframe"), frameName = ("CoconaComment" + Math.random()).replace(/\W/g, "");
+            var elem = document.getElementById(id),
+                ifr = document.createElement("iframe"),
+                frameName = ("CoconaComment" + Math.random()).replace(/\W/g, "");
             if (!elem) { return; }
             ifr.name = frameName;
             ifr.src = "/index.html" + (theme ? "?theme=" + theme : "");
