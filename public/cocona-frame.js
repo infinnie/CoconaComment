@@ -78,7 +78,7 @@
                     frag = range.extractContents();
                     p = document.createElement("p");
                     p.appendChild(frag);
-                    if ($(container).is(that)) {
+                    if (container === that) {
                         container = $(container).html("<p>" + $(container).html() + "</p>").find("p").get(0);
                     }
                     if (!$(p).text() && !$(p).find("br").length) {
@@ -118,7 +118,7 @@
             return !done;
         }).on("paste", "[role=textbox]", function (e) {
             e = e.originalEvent;
-            var cd = e.clipboardData || window.clipboardData, text, hyperLink, selection, range, done, textArray, frag, p;
+            var cd = e.clipboardData || window.clipboardData, that = this, done, text, hyperLink, range, textArray, frag, p;
             // IE TP has no clipboardData for the event, yet
             // but does everything else like Chrome.
             if (cd) {
@@ -134,11 +134,10 @@
                         hyperLink.href = text;
                         hyperLink.innerHTML = text;
                         try {
-                            selection = window.getSelection();
-                            range = selection.getRangeAt(0);
+                            range = window.getSelection().getRangeAt(0);
                             range.deleteContents();
                             range.insertNode(hyperLink);
-                            selection.collapseToEnd();
+                            range.collapse(false);
                             done = true;
                         } catch (x) {
                             try {
@@ -150,6 +149,7 @@
                         }
                     } else {
                         try {
+                            // TODO: repair hyperlinks
                             range = window.getSelection().getRangeAt(0);
                             range.deleteContents();
                             textArray = text.split(/[\r\n]+/);
