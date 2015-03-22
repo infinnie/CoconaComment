@@ -4,11 +4,13 @@ html {
 
 body, input, button, select, textarea {
     font: 100%/1.5 "_Segoe","Segoe UI",Seravek,"Open Sans",Roboto,Arial,sans-serif;
+    font-feature-settings: "dlig", "kern"
 }
 
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 
 img {
@@ -26,7 +28,7 @@ a {
 
 .header {
     border-bottom: 1px solid;
-    margin-bottom: 1.5em;
+    margin-bottom: 1.25em;
     width: 100%;
 }
 
@@ -58,25 +60,77 @@ a {
 
 .comment-box {
     border: 1px solid;
+    overflow: hidden;
 }
 
 .comment-editor {
-    padding: .5em .75em;
-    min-height: 1.5em;
+    padding: .5em .75em 3.3em;
+    min-height: 3em;
     transition: .3s;
 }
 
-    .comment-editor:empty:before {
+.comment-box.empty .comment-editor {
+    min-height: 1.5em;
+    padding-bottom: .5em;
+}
+
+    .comment-box.empty .comment-editor:before {
         content: attr(data-placeholder);
     }
 
-    .comment-editor:focus {
-        min-height: 3em;
+.comment-editor-tools {
+    float: left;
+    transition: .3s;
+    margin: -2.8em .5em 0;
+}
+
+.comment-editor-cmd {
+    border-radius: 1em;
+    height: 2em;
+    width: 2em;
+    border: 0 solid;
+    background: transparent;
+    margin: 0 .25em;
+    padding: 0;
+    float: left;
+    opacity: .6;
+}
+
+    .comment-editor-cmd:hover,.comment-editor-cmd:focus,.comment-editor-cmd.active {
+        opacity: 1;
     }
 
-        .comment-editor:focus:before {
-            content: none;
-        }
+    .comment-editor-cmd:before {
+        font: 1.25em Consolas,"DejaVu Sans Mono",monospace
+    }
+
+.comment-editor-cmd-bold:before {
+    content: "B";
+    font-weight: bold;
+
+}
+
+.comment-editor-cmd-italic:before {
+    content: "i";
+    font-style: italic;
+}
+
+.comment-btn{
+    padding: .4em .75em;
+    margin: -3em .75em -.5em;
+    display: inline-block;
+    transition: .3s;
+    border: 0;
+    opacity: .999;
+    border-radius: 3px;
+    float: right;
+}
+
+.comment-box.empty .comment-editor-tools,.comment-box.empty .comment-btn {
+    visibility: hidden;
+    opacity: 0;
+    margin-top: -2em;
+}
 
 .comments {
     list-style: none;

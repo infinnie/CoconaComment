@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8' />
+    <meta name="X-UA-Compatible" content="IE=11" />
     <title>Cocona</title>
     <link rel="stylesheet" href="font.css" />
     <link rel="stylesheet" href="common.css" />
@@ -12,9 +13,15 @@
         <a href="#" class="header-link">Top rated</a>
         <a href="/auth/github" class="header-link account-link" target="_blank">Log in</a>
     </div>
-    <div class="comment-box">
-        <div class="comment-editor" contenteditable="true" data-placeholder="Leave a comment&hellip;" id="editor"></div>
-    </div>
+    <form class="comment-box" id="editorBox">
+        <div class="comment-editor" contenteditable="true" data-placeholder="Leave a comment&hellip;" role="textbox"></div>
+        <input type="hidden" />
+        <div class="comment-editor-tools">
+            <button class="comment-editor-cmd comment-editor-cmd-bold" data-command="bold" title="Bold"></button>
+            <button class="comment-editor-cmd comment-editor-cmd-italic" data-command="italic" title="Italic"></button>
+        </div>
+        <button class="comment-btn">Submit</button>
+    </form>
     <ul class="comments" data-bind="foreach:comments">
         <li class="comment">
             <a href="#" class="user-avatar">
