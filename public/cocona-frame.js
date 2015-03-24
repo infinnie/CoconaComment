@@ -118,7 +118,7 @@
             return !done;
         }).on("paste", "[role=textbox]", function (e) {
             e = e.originalEvent;
-            var cd = e.clipboardData || window.clipboardData, that = this, done, text, hyperLink, range, textArray, frag, p;
+            var cd = e.clipboardData || window.clipboardData, that = this, done, text, hyperLink, selection, startContainer, container, range, isDiff, textArray, textNode, frag, p;
             // IE TP has no clipboardData for the event, yet
             // but does everything else like Chrome.
             if (cd) {
@@ -150,20 +150,80 @@
                     } else {
                         try {
                             // TODO: repair hyperlinks
-                            range = window.getSelection().getRangeAt(0);
-                            range.deleteContents();
-                            textArray = text.split(/[\r\n]+/);
-                            frag = document.createDocumentFragment();
-                            frag.appendChild(document.createTextNode(textArray.shift() || ""));
-                            while (textArray.length) {
-                                p = document.createElement("p");
-                                p.appendChild(document.createTextNode(textArray.shift() || ""));
-                                frag.appendChild(p);
+                            selection = window.getSelection();
+                            range = selection.getRangeAt(0);
+
+                            startContainer = range.startContainer;
+                            if (startContainer.nodeType === 3) {
+                                startContainer = startContainer.parentNode;
                             }
-                            range.insertNode(frag);
-                            range.collapse(false);
+                            startContainer = $(startContainer).is("div,p,blockquote,pre") ? startContainer : $(startContainer).parent("div,p,blockquote,pre").get(0);
+
+                            container = range.endContainer;
+                            if (container.nodeType === 3) {
+                                container = container.parentNode;
+                            }
+                            container = $(container).is("div,p,blockquote,pre") ? container : $(container).parent("div,p,blockquote,pre").get(0);
+
+                            range.deleteContents();
+
+                            if (startContainer === container) {
+                                range.setEnd(container, container.childNodes.length);
+                                frag = range.extractContents();
+                                p = document.createElement("p");
+                                p.appendChild(frag);
+                            } else {
+                                p = container;
+                                container = startContainer;
+                            }
+                            if (container === that) {
+                                container = $(container).html("<p>" + $(container).html() + "</p>").find("p").get(0);
+                            }
+                            if (!$(p).text() && !$(p).find("br").length) {
+                                $(p).append("<br>");
+                            }
+                            $(p).find("font").each(function () {
+                                this.outerHTML = this.innerHTML;
+                            });
+                            range.setStartAfter(container);
+                            range.insertNode(p);
+
+                            textArray = text.replace(/^[\r\n]+/, "").replace(/[\r\n]+$/, "").split(/[\r\n]+/);
+                            frag = document.createDocumentFragment();
+                            container.appendChild(document.createTextNode(textArray.shift() || ""));
+                            if (textArray.length) {
+                                range.setStart(p, 0);
+                                textNode = document.createTextNode(textArray.pop() || "");
+                                range.insertNode(textNode);
+                                range.setStartBefore(p);
+                                range.setEndBefore(p);
+                                while (textArray.length) {
+                                    p = document.createElement("p");
+                                    p.appendChild(document.createTextNode(textArray.shift() || ""));
+                                    frag.appendChild(p);
+                                }
+                                range.insertNode(frag);
+                                range.setStartAfter(textNode);
+                                range.setEndAfter(textNode);
+                            } else {
+                                range.selectNodeContents(p);
+                                frag = range.extractContents();
+                                range.selectNodeContents(container);
+                                range.collapse(false);
+                                range.insertNode(frag);
+                                $(p).remove();
+                                range.collapse(false);
+                            }
+
+                            // selection.collapse(p, 1);
                             done = true;
-                        } catch (x2) { }
+                            // }
+                        } catch (x2) {
+                            try {
+                                document.selection.createRange().pasteHTML(text.replace(/^[\r\n]+/, "").replace(/[\r\n]+$/, "").replace(/[\r\n]+/g, "<\/p><p>"));
+                                done = true;
+                            } catch (x4) { }
+                        }
                     }
                     return !done;
                 }

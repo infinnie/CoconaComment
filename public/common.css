@@ -4,7 +4,7 @@ html {
 
 body, input, button, select, textarea {
     font: 100%/1.5 "_Segoe","Segoe UI",Seravek,"Open Sans",Roboto,Arial,sans-serif;
-    font-feature-settings: "dlig", "kern"
+    font-feature-settings: "dlig", "kern";
 }
 
 body {
@@ -48,7 +48,7 @@ a {
     margin-bottom: -1px;
 }
 
-    .header-link:hover,.header-link:focus {
+    .header-link:hover, .header-link:focus {
         text-decoration: none;
     }
 
@@ -78,6 +78,10 @@ a {
         content: attr(data-placeholder);
     }
 
+.comment-editor p {
+    margin: 0 0 1em;
+}
+
 .comment-editor-tools {
     float: left;
     transition: .3s;
@@ -96,18 +100,17 @@ a {
     opacity: .6;
 }
 
-    .comment-editor-cmd:hover,.comment-editor-cmd:focus,.comment-editor-cmd.active {
+    .comment-editor-cmd:hover, .comment-editor-cmd:focus, .comment-editor-cmd.active {
         opacity: 1;
     }
 
     .comment-editor-cmd:before {
-        font: 1.25em Consolas,"DejaVu Sans Mono",monospace
+        font: 1.25em Consolas,"DejaVu Sans Mono",monospace;
     }
 
 .comment-editor-cmd-bold:before {
     content: "B";
     font-weight: bold;
-
 }
 
 .comment-editor-cmd-italic:before {
@@ -115,7 +118,7 @@ a {
     font-style: italic;
 }
 
-.comment-btn{
+.comment-btn {
     padding: .4em .75em;
     margin: -3em .75em -.5em;
     display: inline-block;
@@ -126,7 +129,7 @@ a {
     float: right;
 }
 
-.comment-box.empty .comment-editor-tools,.comment-box.empty .comment-btn {
+.comment-box.empty .comment-editor-tools, .comment-box.empty .comment-btn {
     visibility: hidden;
     opacity: 0;
     margin-top: -2em;
