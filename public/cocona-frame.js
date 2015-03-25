@@ -59,6 +59,7 @@
             });
             element.find("i").each(function () {
                 var sib = this.nextSibling, range, frag;
+                if (!sib) { return; }
                 if (sib.nodeType === 1 && sib.tagName.toLowerCase() === "i") {
                     range = document.createRange();
                     range.selectNodeContents(sib);
