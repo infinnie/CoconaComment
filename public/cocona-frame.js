@@ -272,7 +272,9 @@
         }).on("submit", function () {
             return false;
         });
-        $.getJSON(/*"/comments/?"*/"/format.json?" + (+new Date()), function (data) {
+
+        // GET /comments/?1427293850129
+        $.getJSON("/format.json?" + (+new Date()), function (data) {
             $.each(data, function () {
                 // console.log(this);
                 App.comments.push(this);
