@@ -1,0 +1,34 @@
+[
+    {
+        "domain": "test",
+        "topic": "Test Topic",
+        "created_at": "3/18/2015, 11:57:59 PM",
+        "body": "<p>Hello, world</p>",
+        "author": {
+            "provider": "test",
+            "id": "5509a087f50e18381c075fde",
+            "profile": {
+                "name": "Alice",
+                "login": "alice",
+                "avatar_url": "/avatar.jpg",
+                "blog": "http://localhost/"
+            }
+        }
+    },
+    {
+        "domain": "test",
+        "topic": "Test Topic",
+        "created_at": "3/18/2015, 11:57:59 PM",
+        "body": "<p>Quick brown foxes jump over the lazy doge.</p>",
+        "author": {
+            "provider": "test",
+            "id": "something else",
+            "profile": {
+                "name": "Bob",
+                "login": "bob",
+                "avatar_url": "/avatar.jpg",
+                "blog": "http://localhost/"
+            }
+        }
+    }
+]
