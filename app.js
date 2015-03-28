@@ -5,6 +5,7 @@ var session = require('express-session');
 var express = require('express');
 var morgan = require('morgan');
 var Mabolo = require('mabolo');
+var async = require('async');
 var cors = require('cors');
 var _ = require('underscore');
 
@@ -105,7 +106,31 @@ app.use(passport.session());
   }]
 */
 app.get('/comments', function(req, res) {
-  // TODO
+  Comment.find({
+    domain: req.query.domain,
+    topic: req.query.topic
+  }, function(err, comments) {
+    if (err) {
+      res.status(400).json({
+        error: err.message
+      });
+    }
+
+    async.each(comments, function(comment, callback) {
+      User.findById(comment.author_id, function(err, user) {
+        comment.author = user.wipe();
+        callback(err);
+      });
+    }, function(err) {
+      if (err) {
+        res.status(400).json({
+          error: err.message
+        });
+      } else {
+        res.json(comments);
+      }
+    });
+  });
 });
 
 /*
@@ -140,7 +165,7 @@ app.post('/comments', ensureAuthenticated, function(req, res) {
   }), function(err, comment) {
     if (err) {
       res.status(400).json({
-        error: err.toString()
+        error: err.message
       });
     } else {
       res.json(_.extend(comment, {
